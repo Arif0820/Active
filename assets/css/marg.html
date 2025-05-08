@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Swiper demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <!-- Demo styles -->
+  <style>
+    html,
+    body {
+      position: relative;
+      height: 100%;
+    }
+
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+      margin: 0;
+      padding: 0;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .swiper-container {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+    color: #000; /* Optional styling */
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out; /* Fade and slide transition */
+}
+
+.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-out {
+    opacity: 0;
+    transform: translateY(-100%);
+}
+
+  </style>
+</head>
+
+<body>
+  <!-- Swiper -->
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide content-slide">
+            <div class="content" id="content1">Pehla Content</div>
+            <div class="content" id="content2">Dusra Content</div>
+        </div>
+        <div class="swiper-slide">Slide 2 Content</div>
+        <!-- Slide 3 -->
+        <div class="swiper-slide">Slide 3 Content</div>
+    </div>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+  
+
+
+   
+    document.addEventListener('DOMContentLoaded', function() {
+    var swiper = new Swiper('.mySwiper', {
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        on: {
+            slideChangeTransitionStart: function () {
+                handleContentTransition();
+            }
+        }
+    });
+
+    function handleContentTransition() {
+        const currentSlide = swiper.slides[swiper.activeIndex];
+        const content1 = document.getElementById('content1');
+        const content2 = document.getElementById('content2');
+        
+        if (currentSlide.classList.contains('content-slide')) {
+            content1.classList.remove('fade-out');
+            content1.classList.add('fade-in');
+            content2.classList.remove('fade-in');
+            content2.classList.add('fade-out');
+            
+            setTimeout(() => {
+                content1.classList.remove('fade-in');
+                content1.classList.add('fade-out');
+                content2.classList.remove('fade-out');
+                content2.classList.add('fade-in');
+            }, 3000); // 3 seconds delay
+        } else {
+            // Hide both contents for other slides
+            content1.classList.remove('fade-in', 'fade-out');
+            content2.classList.remove('fade-in', 'fade-out');
+        }
+    }
+
+    // Initial call to handle content transition on page load
+    handleContentTransition();
+});
+
+
+
+  </script>
+</body>
+
+</html>
